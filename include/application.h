@@ -4,20 +4,26 @@
 // GLEW
 #include <GLFW/glfw3.h>
 
-//GLM
+// GLM
 #include <glm/glm.hpp>
+
+// octengine
+#include "scene.h"
 
 
 class Application
 {
+private:
+    GLFWwindow *m_window;
+    Scene *m_scene;
+
 public:
     Application();
     ~Application();
 
     void run();
 
-private:
-    GLFWwindow *window;
+    void setScene(Scene *scene);
 };
 
 #endif
