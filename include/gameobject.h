@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 
 #include <vector>
+#include <iostream>
 
 
 class GameObject;
@@ -12,6 +13,9 @@ class GameObject;
 class Component
 {
 public:
+    Component() {};
+    ~Component() {};
+
     virtual void update(GameObject &gameobject) {};
     virtual void render(const GameObject &gameobject) {};
 };
@@ -32,13 +36,18 @@ public:
     void update()
     {
         for (std::vector<Component*>::iterator it = m_components.begin(); it != m_components.end(); ++it)
+        {
             (*it)->update(*this);
+        }
     };
 
     void render()
     {
         for (std::vector<Component*>::iterator it = m_components.begin(); it != m_components.end(); ++it)
+        {
+            std::cout << *it << std::endl;
             (*it)->render(*this);
+        }
     };
 };
 

@@ -2,6 +2,8 @@
 #include "gameobject.h"
 #include "staticmesh.h"
 
+#include <iostream>
+
 
 int main()
 {
@@ -9,7 +11,7 @@ int main()
     Scene *scene = new Scene();
 
     GameObject *g = new GameObject();
-    Component *triangle = new StaticMesh();
+    StaticMesh *triangle = new StaticMesh();
     g->addComponent(triangle);
     scene->addGameObject(g);
 

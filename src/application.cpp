@@ -29,16 +29,16 @@ Application::Application()
     }
     glfwMakeContextCurrent(m_window);
 
-    int width, height;
-    glfwGetFramebufferSize(m_window, &width, &height);
-    glViewport(0, 0, width, height);
+    glewExperimental=true;
+    GLenum err=glewInit();
+    if(err!=GLEW_OK) {
+        cerr << "Error Initializing GLEW: " << glewGetErrorString(err) << endl;
+        throw -1;
+    }
 
-    glfwSetInputMode(m_window, GLFW_STICKY_KEYS, GL_TRUE);
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
-    glewInit();
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glClearColor(0.0, 0.0, 0.0, 1.0);
 }
 
 
@@ -52,14 +52,17 @@ void Application::run()
 {
     while(!glfwWindowShouldClose(m_window))
     {
+        float delta = glfwGetTime();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         m_scene->update();
         m_scene->render();
 
-        glfwPollEvents();
+        glfwSetTime(0);
         glfwSwapBuffers(m_window);
+        glfwPollEvents();
     }
+    glfwDestroyWindow(m_window);
 }
 
 

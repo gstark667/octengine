@@ -20,14 +20,14 @@ private:
 
     GLuint m_vs;
     GLuint m_fs;
-    GLuint m_shaderProgram;
+    GLuint m_shader;
 
 public:
     StaticMesh();
     ~StaticMesh();
 
-    virtual void update(GameObject &gameObject);
-    virtual void render(const GameObject &gameObject);
+    void update(GameObject &gameObject);
+    void render(const GameObject &gameObject);
 };
 
 #endif
