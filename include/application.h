@@ -1,8 +1,11 @@
 #ifndef H_APPLICATION
 #define H_APPLICATION
 
-// GLEW
+#ifndef H_GL
+#define H_GL
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#endif
 
 // GLM
 #include <glm/glm.hpp>

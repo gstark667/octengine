@@ -8,16 +8,12 @@
 
 class GameObject;
 
+
 class Component
 {
 public:
-    Component() {};
-    ~Component() {};
-
-    virtual void update(GameObject &gameobject);
-    virtual void render(const GameObject &gameobject);
-
-private:
+    virtual void update(GameObject &gameobject) {};
+    virtual void render(const GameObject &gameobject) {};
 };
 
 
@@ -42,7 +38,7 @@ public:
     void render()
     {
         for (std::vector<Component*>::iterator it = m_components.begin(); it != m_components.end(); ++it)
-            (*it)->update(*this);
+            (*it)->render(*this);
     };
 };
 

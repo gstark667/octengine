@@ -9,14 +9,16 @@
 class Scene
 {
 private:
-   std::vector<GameObject*> m_gameobjects;
+    std::vector<GameObject*> m_gameObjects;
 
 public:
-   Scene();
-   ~Scene();
+    Scene();
+    ~Scene();
 
-   void update();
-   void render();
+    void update();
+    void render();
+
+    void addGameObject(GameObject *gameObject);
 };
 
 #endif

@@ -3,7 +3,6 @@
 #include <iostream>
 #include <exception>
 
-#include <GL/gl.h>
 
 using namespace std;
 
@@ -30,8 +29,16 @@ Application::Application()
     }
     glfwMakeContextCurrent(m_window);
 
+    int width, height;
+    glfwGetFramebufferSize(m_window, &width, &height);
+    glViewport(0, 0, width, height);
+
     glfwSetInputMode(m_window, GLFW_STICKY_KEYS, GL_TRUE);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+
+    glewInit();
 }
 
 
@@ -43,15 +50,15 @@ Application::~Application()
 
 void Application::run()
 {
-    while(true)
+    while(!glfwWindowShouldClose(m_window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         m_scene->update();
         m_scene->render();
 
-        glfwSwapBuffers(m_window);
         glfwPollEvents();
+        glfwSwapBuffers(m_window);
     }
 }
 

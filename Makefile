@@ -2,14 +2,15 @@ CXX=  g++
 
 CFLAGS=-g -Wall -Iinclude/ -std=c++11
 LDFLAGS=
-LIBS=-lGL -lglfw
+LIBS=-lGL -lglfw -lGLEW
 
 O=build
 
 OBJS= \
     $(O)/main.o \
     $(O)/application.o \
-    $(O)/scene.o
+    $(O)/scene.o \
+    $(O)/staticmesh.o
 
 all: $(O)/octengine
 
