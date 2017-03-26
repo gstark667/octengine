@@ -2,6 +2,7 @@
 #define H_STATICMESH
 
 #include "gameobject.h"
+#include "shader.h"
 
 #ifndef H_GL
 #define H_GL
@@ -18,9 +19,7 @@ private:
     GLuint m_vbo;
     GLuint m_vao;
 
-    GLuint m_vs;
-    GLuint m_fs;
-    GLuint m_shader;
+    Shader *m_shader;
 
 public:
     StaticMesh();

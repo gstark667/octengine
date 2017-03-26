@@ -10,7 +10,8 @@ OBJS= \
     $(O)/main.o \
     $(O)/application.o \
     $(O)/scene.o \
-    $(O)/staticmesh.o
+    $(O)/staticmesh.o \
+    $(O)/shader.o
 
 all: $(O)/octengine
 

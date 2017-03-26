@@ -21,9 +21,6 @@ StaticMesh::StaticMesh()
 
     m_vbo = 0;
     m_vao = 0;
-    m_vs = 0;
-    m_fs = 0;
-    m_shader = 0;
 
     glGenBuffers(1, &m_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
@@ -35,87 +32,13 @@ StaticMesh::StaticMesh()
     glBindBuffer(GL_ARRAY_BUFFER, m_vao);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
-    const char* vertex_shader =
-    "#version 400\n"
-    "in vec3 vp;"
-    "void main() {"
-    "  gl_Position = vec4(vp, 1.0);"
-    "}";
-
-    const char* fragment_shader =
-    "#version 400\n"
-    "out vec4 frag_colour;\n"
-    "void main() {\n"
-    "  frag_colour = vec4(0.5, 0.0, 0.5, 1.0);\n"
-    "}\n";
-
-    m_vs = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(m_vs, 1, &vertex_shader, NULL);
-    glCompileShader(m_vs);
-    GLint isCompiled = 0;
-    glGetShaderiv(m_vs, GL_COMPILE_STATUS, &isCompiled);
-    if (isCompiled == GL_FALSE)
-    {
-        GLint maxLength = 0;
-        glGetShaderiv(m_vs, GL_INFO_LOG_LENGTH, &maxLength);
-
-        GLchar *errorLog = (GLchar*)malloc(sizeof(GLchar) * maxLength);
-	glGetShaderInfoLog(m_vs, maxLength, &maxLength, errorLog);
-        std::cout << errorLog << std::endl;
-
-	glDeleteShader(m_vs);
-        throw -1;
-    }
-
-    m_fs = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(m_fs, 1, &fragment_shader, NULL);
-    glCompileShader(m_fs);
-    isCompiled = 0;
-    glGetShaderiv(m_fs, GL_COMPILE_STATUS, &isCompiled);
-    if (isCompiled == GL_FALSE)
-    {
-        GLint maxLength = 0;
-        glGetShaderiv(m_fs, GL_INFO_LOG_LENGTH, &maxLength);
-
-        std::vector<GLchar> errorLog(maxLength);
-        glGetShaderInfoLog(m_fs, maxLength, &maxLength, &errorLog[0]);
-
-        glDeleteShader(m_fs);
-        throw -1;
-    }
-
-    m_shader = glCreateProgram();
-    glAttachShader(m_shader, m_fs);
-    glAttachShader(m_shader, m_vs);
-    glLinkProgram(m_shader);
-
-    std::cout << "START: " << m_vs << std::endl;
-
-    GLint isLinked = 0;
-    glGetProgramiv(m_shader, GL_LINK_STATUS, &isLinked);
-    if(isLinked == GL_FALSE)
-    {
-        GLint maxLength = 0;
-        glGetProgramiv(m_shader, GL_INFO_LOG_LENGTH, &maxLength);
-
-        std::vector<GLchar> infoLog(maxLength);
-        glGetProgramInfoLog(m_shader, maxLength, &maxLength, &infoLog[0]);
-
-        glDeleteProgram(m_shader);
-        throw -1;
-    }
-
-    GLenum err;
-    if ((err = glGetError()) != GL_NO_ERROR)
-    {
-        std::cout << "ERROR: " << err << std::endl;
-    }
+    m_shader = new Shader();
 }
 
 
 StaticMesh::~StaticMesh()
 {
-
+    delete m_shader;
 }
 
 
@@ -127,8 +50,9 @@ void StaticMesh::update(GameObject &gameObject)
 
 void StaticMesh::render(const GameObject &gameObject)
 {
-    glUseProgram(m_shader);
+    m_shader->bind();
     glBindVertexArray(m_vao);
     glDrawArrays(GL_TRIANGLES, 0, 3);
+    m_shader->unbind();
 }
 
