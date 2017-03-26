@@ -48,10 +48,11 @@ void StaticMesh::update(GameObject &gameObject)
 }
 
 
-void StaticMesh::render(const GameObject &gameObject)
+void StaticMesh::render(const GameObject &gameObject, glm::mat4 modelViewProjection)
 {
     m_shader->bind();
     glBindVertexArray(m_vao);
+    glUniformMatrix4fv(m_shader->getUniformLocation("modelViewProjection"), 1, GL_FALSE, &modelViewProjection[0][0]);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     m_shader->unbind();
 }

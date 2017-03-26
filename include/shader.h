@@ -8,6 +8,8 @@
 #include <GL/glew.h>
 #endif
 
+#include <string>
+
 
 class Shader
 {
@@ -22,6 +24,8 @@ public:
 
     void bind() const;
     void unbind() const;
+
+    GLuint getUniformLocation(std::string name);
 };
 
 #endif

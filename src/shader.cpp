@@ -9,8 +9,9 @@ Shader::Shader()
     const char* vertex_shader =
     "#version 400\n"
     "in vec3 vp;"
+    "uniform mat4 modelViewProjection;"
     "void main() {"
-    "  gl_Position = vec4(vp, 1.0);"
+    "  gl_Position = modelViewProjection * vec4(vp, 1.0);"
     "}";
 
     const char* fragment_shader =
@@ -98,5 +99,12 @@ void Shader::bind() const
 void Shader::unbind() const
 {
     glUseProgram(0);
+}
+
+
+GLuint Shader::getUniformLocation(std::string name)
+{
+    // TODO throw an exception if we don't find it
+    return glGetUniformLocation(m_shader, name.c_str());
 }
 

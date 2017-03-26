@@ -17,7 +17,7 @@ public:
     ~Component() {};
 
     virtual void update(GameObject &gameobject) {};
-    virtual void render(const GameObject &gameobject) {};
+    virtual void render(const GameObject &gameobject, glm::mat4 modelViewProjection) {};
 };
 
 
@@ -41,12 +41,11 @@ public:
         }
     };
 
-    void render()
+    void render(glm::mat4 modelViewProjection)
     {
         for (std::vector<Component*>::iterator it = m_components.begin(); it != m_components.end(); ++it)
         {
-            std::cout << *it << std::endl;
-            (*it)->render(*this);
+            (*it)->render(*this, modelViewProjection);
         }
     };
 };

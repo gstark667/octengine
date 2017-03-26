@@ -23,8 +23,9 @@ void Scene::update()
 
 void Scene::render()
 {
+    glm::mat4 modelViewProjection = m_projection * m_view * m_model;
     for(vector<GameObject*>::iterator it = m_gameObjects.begin(); it != m_gameObjects.end(); it++)
-        (*it)->render();
+        (*it)->render(modelViewProjection);
 }
 
 
