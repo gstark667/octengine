@@ -55,7 +55,7 @@ void Application::run()
         float delta = glfwGetTime();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        m_scene->update();
+        m_scene->update(delta);
         m_scene->render();
 
         glfwSetTime(0);

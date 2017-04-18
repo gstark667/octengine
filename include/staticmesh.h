@@ -25,7 +25,7 @@ public:
     StaticMesh();
     ~StaticMesh();
 
-    void update(GameObject &gameObject);
+    void update(GameObject &gameObject, float delta);
     void render(const GameObject &gameObject, glm::mat4 modelViewProjection);
 };
 

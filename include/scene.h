@@ -18,7 +18,7 @@ public:
     Scene();
     ~Scene();
 
-    void update();
+    void update(float delta);
     void render();
 
     void addGameObject(GameObject *gameObject);

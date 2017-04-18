@@ -16,7 +16,7 @@ public:
     Component() {};
     ~Component() {};
 
-    virtual void update(GameObject &gameobject) {};
+    virtual void update(GameObject &gameobject, float delta) {};
     virtual void render(const GameObject &gameobject, glm::mat4 modelViewProjection) {};
 };
 
@@ -33,11 +33,11 @@ public:
 
     void addComponent(Component *component) { m_components.push_back(component); };
 
-    void update()
+    void update(float delta)
     {
         for (std::vector<Component*>::iterator it = m_components.begin(); it != m_components.end(); ++it)
         {
-            (*it)->update(*this);
+            (*it)->update(*this, delta);
         }
     };
 

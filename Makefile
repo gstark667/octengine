@@ -2,16 +2,18 @@ CXX=  g++
 
 CFLAGS=-g -Wall -Iinclude/ -std=c++11
 LDFLAGS=
-LIBS=-lGL -lglfw -lGLEW
+LIBS=-lGL -lglfw -lGLEW -llua
 
 O=build
 
 OBJS= \
     $(O)/main.o \
     $(O)/application.o \
+    $(O)/file.o \
     $(O)/scene.o \
     $(O)/staticmesh.o \
-    $(O)/shader.o
+    $(O)/shader.o \
+    $(O)/script.o
 
 all: $(O)/octengine
 

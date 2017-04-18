@@ -1,6 +1,7 @@
 #include "application.h"
 #include "gameobject.h"
 #include "staticmesh.h"
+#include "script.h"
 
 #include <iostream>
 
@@ -12,7 +13,9 @@ int main()
 
     GameObject *g = new GameObject();
     StaticMesh *triangle = new StaticMesh();
+    Script *script = new Script("scripts/rotate.lua");
     g->addComponent(triangle);
+    g->addComponent(script);
     scene->addGameObject(g);
 
     app->setScene(scene);

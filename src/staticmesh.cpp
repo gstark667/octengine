@@ -42,7 +42,7 @@ StaticMesh::~StaticMesh()
 }
 
 
-void StaticMesh::update(GameObject &gameObject)
+void StaticMesh::update(GameObject &gameObject, float delta)
 {
 
 }

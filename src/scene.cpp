@@ -14,10 +14,10 @@ Scene::~Scene()
 }
 
 
-void Scene::update()
+void Scene::update(float delta)
 {
     for(vector<GameObject*>::iterator it = m_gameObjects.begin(); it != m_gameObjects.end(); it++)
-        (*it)->update();
+        (*it)->update(delta);
 }
 
 
