@@ -38,6 +38,8 @@ StaticMesh::StaticMesh()
 
 StaticMesh::~StaticMesh()
 {
+    glDeleteBuffers(1, &m_vbo);
+    glDeleteVertexArrays(1, &m_vbo);
     delete m_shader;
 }
 

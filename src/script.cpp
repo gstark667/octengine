@@ -27,7 +27,8 @@ void Script::update(GameObject &gameObject, float delta)
 {
     lua_getglobal(m_luaState, "update");
     lua_pushnumber(m_luaState, delta);
-    lua_call(m_luaState, 1, 0);
+    lua_call(m_luaState, 1, 1);
+    int result = (int)lua_tointeger(m_luaState, -1);
     lua_pop(m_luaState, 1);
 }
 

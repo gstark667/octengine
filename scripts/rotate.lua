@@ -1,3 +1,4 @@
 function update(delta)
-    print("rotating: ")
+    print(delta)
+    return 0
 end
