@@ -48,6 +48,12 @@ public:
             (*it)->render(*this, modelViewProjection);
         }
     };
+
+    void translate(float x, float y, float z)
+    {
+        glm::vec4 temp(x, y, z, 1.0f);
+        m_position += temp;
+    };
 };
 
 #endif

@@ -13,7 +13,7 @@ int main()
 
     GameObject *g = new GameObject();
     StaticMesh *triangle = new StaticMesh();
-    Script *script = new Script("scripts/rotate.lua");
+    Script *script = new Script("build/rotate.so");
     g->addComponent(triangle);
     g->addComponent(script);
     scene->addGameObject(g);

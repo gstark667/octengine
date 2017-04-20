@@ -3,7 +3,6 @@
 
 #include "gameobject.h"
 
-#include <lua.hpp>
 #include <string>
 #include <fstream>
 
@@ -11,7 +10,9 @@
 class Script: public Component
 {
 private:
-    lua_State *m_luaState;
+    GameObject *m_gameObject;
+    void *m_lib;
+    void (*m_update)(GameObject&, float);
 
 public:
     Script(std::string filePath);
