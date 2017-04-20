@@ -2,6 +2,7 @@
 #define H_GAMEOBJECT
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <vector>
 #include <iostream>
@@ -25,10 +26,10 @@ class GameObject
 {
 private:
     std::vector<Component*> m_components;
-    glm::vec4 m_position;
+    glm::vec3 m_position, m_rotation;
 
 public:
-    GameObject(): m_position(0.0, 0.0, 0.0, 1.0) {};
+    GameObject(): m_position(0.0, 0.0, 0.0), m_rotation(0.0, 0.0, 0.0) {};
     ~GameObject();
 
     void addComponent(Component *component) { m_components.push_back(component); };
@@ -43,6 +44,8 @@ public:
 
     void render(glm::mat4 modelViewProjection)
     {
+        modelViewProjection *= glm::eulerAngleYXZ(m_rotation.y, m_rotation.x, m_rotation.z);
+        modelViewProjection = glm::translate(glm::mat4(1.0f), m_position);
         for (std::vector<Component*>::iterator it = m_components.begin(); it != m_components.end(); ++it)
         {
             (*it)->render(*this, modelViewProjection);
@@ -51,8 +54,12 @@ public:
 
     void translate(float x, float y, float z)
     {
-        glm::vec4 temp(x, y, z, 1.0f);
-        m_position += temp;
+        m_position += glm::vec3(x, y, z);
+    };
+
+    void rotate(float x, float y, float z)
+    {
+        m_rotation += glm::vec3(x, y, z);
     };
 };
 
