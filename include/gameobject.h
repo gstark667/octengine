@@ -3,6 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/euler_angles.hpp>
 
 #include <vector>
 #include <iostream>
@@ -44,8 +45,8 @@ public:
 
     void render(glm::mat4 modelViewProjection)
     {
+        modelViewProjection *= glm::translate(glm::mat4(1.0f), m_position);
         modelViewProjection *= glm::eulerAngleYXZ(m_rotation.y, m_rotation.x, m_rotation.z);
-        modelViewProjection = glm::translate(glm::mat4(1.0f), m_position);
         for (std::vector<Component*>::iterator it = m_components.begin(); it != m_components.end(); ++it)
         {
             (*it)->render(*this, modelViewProjection);

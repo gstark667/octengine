@@ -5,7 +5,12 @@ using namespace std;
 
 Scene::Scene()
 {
-
+    m_model = glm::mat4();
+    m_view = glm::lookAt(
+    glm::vec3(2.5f, 2.5f, 2.0f),
+    glm::vec3(0.0f, 0.0f, 0.0f),
+    glm::vec3(0.0f, 0.0f, 1.0f));
+    m_projection = glm::perspective(45.0f, 1280.0f / 720.0f, 1.0f, 10.0f);
 }
 
 Scene::~Scene()
