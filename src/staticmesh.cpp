@@ -9,14 +9,14 @@ StaticMesh::StaticMesh()
     m_points = (float*)malloc(9 * sizeof(float));
     //m_points = new float[9];
     m_points[0] = 0.0f;
-    m_points[1] = 0.5f;
-    m_points[2] = 0.5f;
-    m_points[3] = 0.5f;
-    m_points[4] = -0.5f;
-    m_points[5] = 0.5f;
-    m_points[6] = -0.5f;
-    m_points[7] = -0.5f;
-    m_points[8] = 0.5f;
+    m_points[1] = 0.0f;
+    m_points[2] = 0.0f;
+    m_points[3] = 0.0f;
+    m_points[4] = 0.5f;
+    m_points[5] = 0.0f;
+    m_points[6] = 0.5f;
+    m_points[7] = 0.0f;
+    m_points[8] = 0.0f;
     m_numPoints = 9;
 
     m_vbo = 0;
