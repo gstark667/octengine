@@ -14,11 +14,11 @@ Application::Application()
         cerr << "Unable to initialize GLFW" << endl;
     }
 
-    glfwWindowHint(GLFW_SAMPLES, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_DEPTH_BITS, 24);
 
     m_window = glfwCreateWindow(1280, 720, "octengine", NULL, NULL);
     if(m_window == NULL)
@@ -44,6 +44,7 @@ Application::Application()
 
 Application::~Application()
 {
+    std::cout << "Deleting app" << std::endl;
     glfwTerminate();
 }
 
@@ -52,6 +53,8 @@ void Application::run()
 {
     while(!glfwWindowShouldClose(m_window))
     {
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
         float delta = glfwGetTime();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

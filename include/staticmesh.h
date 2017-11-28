@@ -16,9 +16,11 @@ class StaticMesh: public Component
 {
 private:
     float *m_points;
+    float *m_normals;
     size_t m_numPoints;
 
     GLuint m_vbo;
+    GLuint m_nbo;
     GLuint m_vao;
 
     Shader *m_shader;
