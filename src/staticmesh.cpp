@@ -1,30 +1,58 @@
 #include "staticmesh.h"
 
+#include <assimp/Importer.hpp>
+#include <assimp/cimport.h>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 #include <iostream>
+#include <vector>
 #include <stdlib.h>
 
 
 StaticMesh::StaticMesh()
 {
-    m_points = (float*)malloc(9 * sizeof(float));
-    //m_points = new float[9];
-    m_points[0] = 0.0f;
-    m_points[1] = 0.0f;
-    m_points[2] = 0.0f;
-    m_points[3] = 0.0f;
-    m_points[4] = 0.5f;
-    m_points[5] = 0.0f;
-    m_points[6] = 0.5f;
-    m_points[7] = 0.0f;
-    m_points[8] = 0.0f;
-    m_numPoints = 9;
+    Assimp::Importer importer;
+
+    const aiScene *scene = importer.ReadFile("models/cube.dae",
+        aiProcess_CalcTangentSpace       |
+        aiProcess_Triangulate            |
+        aiProcess_JoinIdenticalVertices  |
+        aiProcess_SortByPType);
+
+    std::vector<float> vertices;
+    for (unsigned int i = 0; i < scene->mNumMeshes; ++i)
+    {
+        std::cout << "Mesh" << std::endl;
+        for (unsigned int j = 0; j < scene->mMeshes[i]->mNumFaces; ++j)
+        {
+            for (unsigned int k = 0; k < scene->mMeshes[i]->mFaces[j].mNumIndices; k++)
+            {
+                for (unsigned int v = 0; v < 3; ++v)
+                {
+                    vertices.push_back(scene->mMeshes[i]->mVertices[scene->mMeshes[i]->mFaces[j].mIndices[k]][v]);
+                }
+            }
+        }
+    }
+
+    if (!scene)
+        std::cout << "failed to import asset" << std::endl;
+
+    m_points = (float*)malloc(sizeof(float) * vertices.size());
+    for (size_t i = 0; i < vertices.size(); ++i)
+    {
+        m_points[i] = vertices.at(i);
+    }
+    m_numPoints = vertices.size() / 3;
+    std::cout << m_numPoints << "," << vertices.size() << std::endl;
 
     m_vbo = 0;
     m_vao = 0;
 
     glGenBuffers(1, &m_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), m_points, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * m_numPoints * 3, m_points, GL_STATIC_DRAW);
 
     glGenVertexArrays(1, &m_vao);
     glBindVertexArray(m_vao);
@@ -55,7 +83,7 @@ void StaticMesh::render(const GameObject &gameObject, glm::mat4 modelViewProject
     m_shader->bind();
     glBindVertexArray(m_vao);
     glUniformMatrix4fv(m_shader->getUniformLocation("modelViewProjection"), 1, GL_FALSE, &modelViewProjection[0][0]);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawArrays(GL_TRIANGLES, 0, m_numPoints);
     m_shader->unbind();
 }
 
