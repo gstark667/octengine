@@ -1,28 +1,27 @@
 #include "shader.h"
 
 #include <iostream>
+#include <fstream>
 #include <stdlib.h>
+#include <string.h>
 
 
-Shader::Shader()
+Shader::Shader(std::string vertexPath, std::string fragmentPath)
 {
-    const char* vertex_shader =
-    "#version 400\n"
-    "in vec3 vp;"
-    "uniform mat4 modelViewProjection;"
-    "void main() {"
-    "  gl_Position = modelViewProjection * vec4(vp, 1.0);"
-    "}";
+    std::ifstream vertexSourceFile(vertexPath);
+    std::string vertexSource((std::istreambuf_iterator<char>(vertexSourceFile)), std::istreambuf_iterator<char>());
+    vertexSourceFile.close();
+    m_vertexSource = new char[vertexSource.size()];
+    strcpy(m_vertexSource, vertexSource.c_str());
 
-    const char* fragment_shader =
-    "#version 400\n"
-    "out vec4 frag_colour;\n"
-    "void main() {\n"
-    "  frag_colour = vec4(0.5, 0.0, 0.5, 1.0);\n"
-    "}\n";
+    std::ifstream fragmentSourceFile(fragmentPath);
+    std::string fragmentSource((std::istreambuf_iterator<char>(fragmentSourceFile)), std::istreambuf_iterator<char>());
+    fragmentSourceFile.close();
+    m_fragmentSource = new char[fragmentSource.size()];
+    strcpy(m_fragmentSource, fragmentSource.c_str());
 
     m_vertex = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(m_vertex, 1, &vertex_shader, NULL);
+    glShaderSource(m_vertex, 1, &m_vertexSource, NULL);
     glCompileShader(m_vertex);
     GLint isCompiled = 0;
     glGetShaderiv(m_vertex, GL_COMPILE_STATUS, &isCompiled);
@@ -32,15 +31,15 @@ Shader::Shader()
         glGetShaderiv(m_vertex, GL_INFO_LOG_LENGTH, &maxLength);
 
         GLchar *errorLog = (GLchar*)malloc(sizeof(GLchar) * maxLength);
-	glGetShaderInfoLog(m_vertex, maxLength, &maxLength, errorLog);
+        glGetShaderInfoLog(m_vertex, maxLength, &maxLength, errorLog);
         std::cerr << errorLog << std::endl;
 
-	glDeleteShader(m_vertex);
+        glDeleteShader(m_vertex);
         throw -1;
     }
 
     m_fragment = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(m_fragment, 1, &fragment_shader, NULL);
+    glShaderSource(m_fragment, 1, &m_fragmentSource, NULL);
     glCompileShader(m_fragment);
     isCompiled = 0;
     glGetShaderiv(m_fragment, GL_COMPILE_STATUS, &isCompiled);
@@ -81,6 +80,8 @@ Shader::Shader()
 
 Shader::~Shader()
 {
+    delete m_vertexSource;
+    delete m_fragmentSource;
     if (m_vertex)
         glDeleteShader(m_vertex);
     if (m_fragment)

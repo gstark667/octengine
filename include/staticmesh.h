@@ -9,6 +9,8 @@
 #include <GL/glew.h>
 #endif
 
+#include <string>
+
 
 class StaticMesh: public Component
 {
@@ -22,7 +24,7 @@ private:
     Shader *m_shader;
 
 public:
-    StaticMesh();
+    StaticMesh(std::string meshPath);
     ~StaticMesh();
 
     void update(GameObject &gameObject, float delta);

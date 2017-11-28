@@ -14,12 +14,14 @@
 class Shader
 {
 private:
+    char *m_vertexSource;
+    char *m_fragmentSource;
     GLuint m_vertex;
     GLuint m_fragment;
     GLuint m_shader;
 
 public:
-    Shader();
+    Shader(std::string vertexPath, std::string fragmentPath);
     ~Shader();
 
     void bind() const;

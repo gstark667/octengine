@@ -10,7 +10,7 @@
 #include <stdlib.h>
 
 
-StaticMesh::StaticMesh()
+StaticMesh::StaticMesh(std::string modelPath)
 {
     Assimp::Importer importer;
 
@@ -60,7 +60,7 @@ StaticMesh::StaticMesh()
     glBindBuffer(GL_ARRAY_BUFFER, m_vao);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
-    m_shader = new Shader();
+    m_shader = new Shader("shaders/default.vert", "shaders/default.frag");
 }
 
 
