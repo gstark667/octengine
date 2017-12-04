@@ -31,7 +31,7 @@ private:
 
 public:
     GameObject(): m_position(0.0, 0.0, 0.0), m_rotation(0.0, 0.0, 0.0) {};
-    ~GameObject();
+    ~GameObject() {};
 
     void addComponent(Component *component) { m_components.push_back(component); };
 
@@ -53,6 +53,16 @@ public:
         }
     };
 
+    glm::vec3 getPosition()
+    {
+        return m_position;
+    };
+
+    glm::vec3 getRotation()
+    {
+        return m_rotation;
+    };
+
     void translate(float x, float y, float z)
     {
         m_position += glm::vec3(x, y, z);
@@ -61,6 +71,11 @@ public:
     void rotate(float x, float y, float z)
     {
         m_rotation += glm::vec3(x, y, z);
+    };
+
+    void lookAt(GameObject *target)
+    {
+        glm::lookAt(m_position, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f));
     };
 };
 

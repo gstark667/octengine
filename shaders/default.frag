@@ -8,5 +8,5 @@ out vec4 frag_colour;
 
 void main() {
     float diffuse_value = max(dot(vertex_normal, vertex_light_position), 0.0);
-    frag_colour = vec4(0.5, 0.0, 0.5, 1.0) * diffuse_value;
+    frag_colour = vec4(1.0, 1.0, 1.0, 1.0) * diffuse_value;
 }
